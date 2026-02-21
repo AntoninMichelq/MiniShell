@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include "exec_cmd.h"
 
@@ -14,7 +15,7 @@ int main(void)
     };
 
     cmd* chain;
-    char* command;
+    char command[100];
     int size;
     while(1)
     {
@@ -27,6 +28,6 @@ int main(void)
             }
         }
     }
-
+    free(command);
     return 0;
 }
