@@ -18,27 +18,30 @@ int main(void)
     {"exit", (int(*)(cmd*))exec_exit},
     {NULL, NULL}
     };
-    cmd * chain;
-    char* command = alloc_char();
-    int size;
-    while(1)
-    {
+    
+    int run = 1;
+    while(run) {
+        char* command = alloc_char();
         printf("minishell>");
-        scanf("%s", command);
-        chain = charToChain(command);
-        size = strlen(command);
-        int i = 0;
-       
-       
-        for(int j = 0; j < size; j++) {
-           if(strcmp(command, tab[i].name) == 0) {
-                tab[j].func(chain);
-            }
-        }
-    }
 
-    free_command(chain);
-    free(command);
+        if(scanf("%s", command) == EOF) {
+            free(command);
+            break;
+        }
+        cmd*  chain = charToChain(command);
+
+        int j = 0;
+        while(tab[j].name != NULL) {
+            if(strcmp(command, tab[j].name) == 0) {
+                run = tab[j].func(chain);
+                break;
+            }
+            j++;
+        }
+
+     free_command(chain);
+     free(command);    
+    }
     return 0;
 }
 
@@ -47,15 +50,15 @@ char* alloc_char() {
 }
 void free_command(cmd* chain) {
     cmd* tmp;
-    while(chain) {
+    while(chain != NULL) {
         tmp = chain->next;
-
-        if(chain->name)
+        if(chain->name != NULL)
             free(chain->name);
         free(chain);
 
         chain = tmp;
     }
+    chain = NULL;
 }
 
 cmd* charToChain(char* args) {

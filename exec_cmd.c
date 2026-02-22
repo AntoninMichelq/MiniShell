@@ -9,17 +9,21 @@ int exec_ls(cmd* name) {
     (void) name;
     DIR* folder = opendir(".");
     struct dirent* hFile;
-    
+    int i = 0;
     while((hFile = readdir(folder)) != NULL) {
-        printf("%s ", hFile->d_name);
+        i++;
+        if(hFile->d_name[0] != '.') {
+            printf("%s ", hFile->d_name);
+        }
+        if(i%4 == 0) printf("\n");
     }
+    printf("\n");
 
     closedir(folder);
-    return 0;
+    return 1;
 }
 
 int exec_exit() {
-    exit(0);
     return 0;
 }
 
