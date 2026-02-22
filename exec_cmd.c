@@ -5,12 +5,13 @@
 #include <stdio.h>
 
 
-int exec_ls(cmd* args) {
+int exec_ls(cmd* name) {
+    (void) name;
     DIR* folder = opendir(".");
     struct dirent* hFile;
     
     while((hFile = readdir(folder)) != NULL) {
-        printf("%s", hFile->d_name);
+        printf("%s ", hFile->d_name);
     }
 
     closedir(folder);
